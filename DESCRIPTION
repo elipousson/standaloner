@@ -1,0 +1,24 @@
+Type: Package
+Package: settoken
+Title: Set and Get Tokens from Renviron
+Version: 0.1.0
+Authors@R: 
+    person("Eli", "Pousson", , "eli.pousson@gmail.com", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0001-8280-1706"))
+Description: Set or get a token stored an an environmental variable.
+License: MIT + file LICENSE
+URL: https://github.com/elipousson/settoken
+BugReports: https://github.com/elipousson/settoken/issues
+Imports: 
+    cli,
+    glue,
+    rlang (>= 1.1.0),
+    utils
+Suggests: 
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
