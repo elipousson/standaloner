@@ -180,8 +180,8 @@ get_r_environ_token <- function(token = NULL,
     }
   }
 
-  message <- message %||% "{.arg token} is empty and {.arg default} variable
-  {.val {default}} can't be found in {.file .Renviron}"
+  message <- message %||%
+    "{.arg token} is empty and {.envvar {default}} can't be found in {.file .Renviron}"
 
   cli_abort(
     message = message,
