@@ -29,31 +29,33 @@ get_r_environ_token(
 )
 }
 \arguments{
-\item{token}{A personal access token, API key, or other environmental
-variable.}
+\item{token}{A personal access token, API key, or other environment variable.}
 
-\item{install}{Add your token to your \code{.Renviron} for use in future sessions.}
+\item{install}{If \code{TRUE}, this function adds your token to your \code{.Renviron}
+for use in future sessions. Defaults to \code{FALSE}.}
 
-\item{overwrite}{If \code{TRUE}, overwrite any existing token in \code{.Renviron},}
+\item{overwrite}{If \code{TRUE}, overwrite any existing token in \code{.Renviron} using
+the same environment variable name. Defaults to \code{FALSE}.}
 
-\item{default}{Default name used for environmental variable where the token
+\item{default}{Default name used for environment variable where the token
 is saved.}
 
-\item{quiet}{If \code{TRUE}, suppress messages by setting the
-\code{cli.default_handler} option to \code{\link[=suppressMessages]{suppressMessages()}}.}
+\item{quiet}{If \code{TRUE}, suppress messages when setting token by locally
+setting the \code{cli.default_handler} option to \code{\link[=suppressMessages]{suppressMessages()}}. Defaults
+to \code{FALSE}.}
 
 \item{call}{The execution environment of a currently
 running function, e.g. \code{caller_env()}. The function will be
 mentioned in error messages as the source of the error. See the
 \code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 
-\item{message}{Error message passed to \code{\link[cli:cli_abort]{cli::cli_abort()}} if token can't be
-found.}
+\item{message}{Optional error message to use if token can't be found.}
 
 \item{pattern}{Optional pattern passed to \code{\link[=grepl]{grepl()}} and used to validate the
-stored token. Note, if pattern is supplied the token must be a string.}
+stored token. If pattern is supplied, the returned token must be a string.}
 
-\item{perl}{Passed to \code{\link[=grepl]{grepl()}} if pattern is supplied. Defaults to \code{TRUE}.}
+\item{perl}{Should Perl-compatible regexps be used when checking \code{pattern}?
+Defaults to \code{TRUE}.}
 }
 \value{
 \code{\link[=set_r_environ_token]{set_r_environ_token()}} invisibly returns a string supplied to

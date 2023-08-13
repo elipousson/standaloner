@@ -37,14 +37,16 @@
 #' [get_r_environ_token()] can return an environment variable or error if the
 #' token is missing or if the token does not match a supplied pattern.
 #'
-#' @param token A personal access token, API key, or other environmental
-#'   variable.
-#' @param install Add your token to your `.Renviron` for use in future sessions.
-#' @param overwrite If `TRUE`, overwrite any existing token in `.Renviron`,
-#' @param default Default name used for environmental variable where the token
+#' @param token A personal access token, API key, or other environment variable.
+#' @param install If `TRUE`, this function adds your token to your `.Renviron`
+#'   for use in future sessions. Defaults to `FALSE`.
+#' @param overwrite If `TRUE`, overwrite any existing token in `.Renviron` using
+#'   the same environment variable name. Defaults to `FALSE`.
+#' @param default Default name used for environment variable where the token
 #'   is saved.
-#' @param quiet If `TRUE`, suppress messages by setting the
-#'   `cli.default_handler` option to [suppressMessages()].
+#' @param quiet If `TRUE`, suppress messages when setting token by locally
+#'   setting the `cli.default_handler` option to [suppressMessages()]. Defaults
+#'   to `FALSE`.
 #' @inheritParams rlang::args_error_context
 #' @returns [set_r_environ_token()] invisibly returns a string supplied to
 #'   `token`.
@@ -142,11 +144,11 @@ set_r_environ_token <- function(token,
 
 #' @rdname set_r_environ_token
 #' @name get_r_environ_token
-#' @param message Error message passed to [cli::cli_abort()] if token can't be
-#'   found.
+#' @param message Optional error message to use if token can't be found.
 #' @param pattern Optional pattern passed to [grepl()] and used to validate the
-#'   stored token. Note, if pattern is supplied the token must be a string.
-#' @param perl Passed to [grepl()] if pattern is supplied. Defaults to `TRUE`.
+#'   stored token. If pattern is supplied, the returned token must be a string.
+#' @param perl Should Perl-compatible regexps be used when checking `pattern`?
+#'   Defaults to `TRUE`.
 #' @returns [get_r_environ_token()] returns a string supplied to `token` or
 #'   obtained from the environment variable named with `default`.
 #'
@@ -176,7 +178,7 @@ get_r_environ_token <- function(token = NULL,
         return(token)
       }
 
-      message <- "{.arg token} must match the supplied pattern: {pattern}"
+      message <- "{.arg token} must match the supplied pattern: {.val {pattern}}"
     }
   }
 
