@@ -29,7 +29,8 @@ get_r_environ_token(
 )
 }
 \arguments{
-\item{token}{A personal access token, API key, or other environment variable.}
+\item{token}{A personal access token, API key, or other environment variable.
+Optional for \code{\link[=get_r_environ_token]{get_r_environ_token()}}.}
 
 \item{install}{If \code{TRUE}, this function adds your token to your \code{.Renviron}
 for use in future sessions. Defaults to \code{FALSE}.}
@@ -75,9 +76,7 @@ Eli Pousson \email{eli.pousson@gmail.com}
 
 \code{\link[=set_r_environ_token]{set_r_environ_token()}} can set an API key or personal access token (PAT) as
 a local environment variable temporarily for the current session or saved for
-future sessions. This function is based on  with updates for more verbose
-messages using \code{{cli}} functions and improved handling of edge cases, e.g.
-partial matching for token names.
+future sessions.
 
 \code{\link[=get_r_environ_token]{get_r_environ_token()}} can return an environment variable or error if the
 token is missing or if the token does not match a supplied pattern.

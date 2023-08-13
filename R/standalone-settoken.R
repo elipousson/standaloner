@@ -30,14 +30,13 @@
 #'
 #' [set_r_environ_token()] can set an API key or personal access token (PAT) as
 #' a local environment variable temporarily for the current session or saved for
-#' future sessions. This function is based on  with updates for more verbose
-#' messages using `{cli}` functions and improved handling of edge cases, e.g.
-#' partial matching for token names.
+#' future sessions.
 #'
 #' [get_r_environ_token()] can return an environment variable or error if the
 #' token is missing or if the token does not match a supplied pattern.
 #'
 #' @param token A personal access token, API key, or other environment variable.
+#'   Optional for [get_r_environ_token()].
 #' @param install If `TRUE`, this function adds your token to your `.Renviron`
 #'   for use in future sessions. Defaults to `FALSE`.
 #' @param overwrite If `TRUE`, overwrite any existing token in `.Renviron` using
