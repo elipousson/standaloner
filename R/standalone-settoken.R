@@ -3,17 +3,17 @@
 # file: standalone-settoken.R
 # last-updated: 2023-08-12
 # license: https://opensource.org/license/mit/
-# imports: [rlang (>= 1.0.0), cli (>= 2.5.0), glue]
+# imports: [rlang (>= 1.0.0), cli (>= 2.5.0)]
 # ---
 #
 # ## Changelog
 #
 # 2023-08-13:
-# * Create file with `set_envvar_token()` and `get_envvar_token()`
+# * Create file with `set_r_environ_token()` and `get_r_environ_token()`
 #
 # nocov start
 #
-# set_envvar_token is based on the MIT-licensed tidycensus::census_api_key()
+# set_r_environ_token is based on the MIT-licensed tidycensus::census_api_key()
 # function.
 #
 # <https://github.com/walkerke/tidycensus/blob/master/LICENSE>
@@ -23,30 +23,42 @@
 #
 #' Set or get a token from your  `.Renviron` file
 #'
-#' [set_envvar_token()] can set an API key or personal access token (PAT) as a
-#' named environment variable temporarily for the current session or saved for
-#' future sessions. This function is based on [tidycensus::census_api_key()] by
-#' Kyle Walker with updates for more verbose messages using `{cli}` functions
-#' and improved handling of edge cases, e.g. partial matching for token names.
+#' @author Kyle Walker \email{kyle@walker-data.com}
 #'
-#' [get_envvar_token()] can return an environment variable or error if the token
-#' is missing or does not match a supplied pattern.
+#'   Eli Pousson \email{eli.pousson@gmail.com}
+#'   ([ORCID](https://orcid.org/0000-0001-8280-1706))
+#'
+#' [set_r_environ_token()] can set an API key or personal access token (PAT) as
+#' a local environment variable temporarily for the current session or saved for
+#' future sessions. This function is based on  with updates for more verbose
+#' messages using `{cli}` functions and improved handling of edge cases, e.g.
+#' partial matching for token names.
+#'
+#' [get_r_environ_token()] can return an environment variable or error if the
+#' token is missing or if the token does not match a supplied pattern.
 #'
 #' @param token A personal access token, API key, or other environmental
 #'   variable.
 #' @param install Add your token to your `.Renviron` for use in future sessions.
 #' @param overwrite If `TRUE`, overwrite any existing token in `.Renviron`,
 #' @param default Default name used for environmental variable where the token
-#'   is stored.
+#'   is saved.
 #' @param quiet If `TRUE`, suppress messages by setting the
 #'   `cli.default_handler` option to [suppressMessages()].
 #' @inheritParams rlang::args_error_context
+#' @returns [set_r_environ_token()] invisibly returns a string supplied to
+#'   `token`.
+#'
+#' @source Adapted from the [tidycensus](https://walker-data.com/tidycensus/)
+#'   function [tidycensus::census_api_key()].
+#'
+#' @keywords internal
+#'
 #' @importFrom rlang caller_env is_true local_options current_env is_null
 #'   caller_call call_name
 #' @importFrom cli cli_bullets cli_alert_success
-#' @importFrom glue glue
 #' @importFrom utils read.table write.table
-set_envvar_token <- function(token,
+set_r_environ_token <- function(token,
                              install = FALSE,
                              overwrite = FALSE,
                              default = "TOKEN",
@@ -58,6 +70,8 @@ set_envvar_token <- function(token,
       .frame = current_env()
     )
   }
+
+  settoken_check_string(default, call = call)
 
   if (is_false(install)) {
     caller_name <- "set_renv_token"
@@ -113,7 +127,7 @@ set_envvar_token <- function(token,
     file.create(renv)
   }
 
-  write(glue('{default}="{token}"'), renv, sep = "\n", append = TRUE)
+  write(paste0(default, '="', token, '"'), renv, sep = "\n", append = TRUE)
 
   cli_bullets(
     c(
@@ -126,36 +140,43 @@ set_envvar_token <- function(token,
   invisible(token)
 }
 
-#' @rdname set_envvar_token
-#' @name get_envvar_token
+#' @rdname set_r_environ_token
+#' @name get_r_environ_token
 #' @param message Error message passed to [cli::cli_abort()] if token can't be
 #'   found.
 #' @param pattern Optional pattern passed to [grepl()] and used to validate the
-#'   stored token.
+#'   stored token. Note, if pattern is supplied the token must be a string.
 #' @param perl Passed to [grepl()] if pattern is supplied. Defaults to `TRUE`.
+#' @returns [get_r_environ_token()] returns a string supplied to `token` or
+#'   obtained from the environment variable named with `default`.
+#'
+#' @keywords internal
+#'
 #' @importFrom rlang caller_arg `%||%`
 #' @importFrom cli cli_abort
-get_envvar_token <- function(token = NULL,
+get_r_environ_token <- function(token = NULL,
                              default = "TOKEN",
                              message = NULL,
                              pattern = NULL,
                              perl = TRUE,
                              call = caller_env(),
                              ...) {
-  if (!is_string(default)) {
-    cli_abort(
-      "{.arg default} must be a string not {.obj_type_friendly {default}}",
-      call = call
-    )
-  }
+  settoken_check_string(default, call = call)
 
   token <- token %||% Sys.getenv(default)
 
   if (!is_empty(token) && !identical(token, "")) {
-    if (!is_null(pattern) && !grepl(pattern, token, perl = perl)) {
-      message <- "{.arg token} must match the supplied pattern: {pattern}"
-    } else {
+    if (is_null(pattern)) {
       return(token)
+    } else {
+      settoken_check_string(pattern, call = call)
+      settoken_check_string(token, call = call)
+
+      if (grepl(pattern, token, perl = perl)) {
+        return(token)
+      }
+
+      message <- "{.arg token} must match the supplied pattern: {pattern}"
     }
   }
 
@@ -164,6 +185,25 @@ get_envvar_token <- function(token = NULL,
 
   cli_abort(
     message = message,
+    ...,
+    call = call
+  )
+}
+
+#' Check if x object is a string and error if not
+#'
+#' @noRd
+settoken_check_string <- function(x,
+                                  arg = caller_arg(x),
+                                  allow_empty = FALSE,
+                                  ...,
+                                  call = caller_env()) {
+  if (is_string(x) && (allow_empty || !is_string(x, ""))) {
+    return(invisible(NULL))
+  }
+
+  cli_abort(
+    "{.arg {arg}} must be a string, not {.obj_type_friendly {x}}",
     ...,
     call = call
   )
