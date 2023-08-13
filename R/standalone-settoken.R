@@ -152,7 +152,7 @@ set_r_environ_token <- function(token,
 #'
 #' @keywords internal
 #'
-#' @importFrom rlang caller_arg `%||%`
+#' @importFrom rlang caller_arg %||%
 #' @importFrom cli cli_abort
 get_r_environ_token <- function(token = NULL,
                              default = "TOKEN",
