@@ -54,16 +54,16 @@
 #'
 #' @keywords internal
 #'
-#' @importFrom rlang caller_env is_true local_options current_env is_null
-#'   caller_call call_name
+#' @importFrom rlang caller_env is_true local_options current_env is_false
+#'   caller_call call_name is_null
 #' @importFrom cli cli_bullets cli_alert_success
 #' @importFrom utils read.table write.table
 set_r_environ_token <- function(token,
-                             install = FALSE,
-                             overwrite = FALSE,
-                             default = "TOKEN",
-                             quiet = FALSE,
-                             call = caller_env()) {
+                                install = FALSE,
+                                overwrite = FALSE,
+                                default = "TOKEN",
+                                quiet = FALSE,
+                                call = caller_env()) {
   if (is_true(quiet)) {
     local_options(
       "cli.default_handler" = suppressMessages,
@@ -152,15 +152,15 @@ set_r_environ_token <- function(token,
 #'
 #' @keywords internal
 #'
-#' @importFrom rlang caller_arg %||%
+#' @importFrom rlang caller_arg %||% is_empty is_null
 #' @importFrom cli cli_abort
 get_r_environ_token <- function(token = NULL,
-                             default = "TOKEN",
-                             message = NULL,
-                             pattern = NULL,
-                             perl = TRUE,
-                             call = caller_env(),
-                             ...) {
+                                default = "TOKEN",
+                                message = NULL,
+                                pattern = NULL,
+                                perl = TRUE,
+                                call = caller_env(),
+                                ...) {
   settoken_check_string(default, call = call)
 
   token <- token %||% Sys.getenv(default)
@@ -193,6 +193,8 @@ get_r_environ_token <- function(token = NULL,
 #' Check if x object is a string and error if not
 #'
 #' @noRd
+#' @importFrom rlang caller_arg caller_env is_string
+#' @importFrom cli cli_abort
 settoken_check_string <- function(x,
                                   arg = caller_arg(x),
                                   allow_empty = FALSE,
