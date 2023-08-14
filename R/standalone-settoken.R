@@ -75,7 +75,7 @@ set_r_environ_token <- function(token,
   settoken_check_string(default, call = call)
 
   if (is_false(install)) {
-    caller_name <- "set_renv_token"
+    caller_name <- "set_r_environ_token"
     caller <- caller_call()
     if (!is_null(caller)) {
       caller_name <- call_name(caller)
