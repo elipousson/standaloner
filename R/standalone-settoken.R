@@ -169,16 +169,16 @@ get_r_environ_token <- function(token = NULL,
   if (!is_empty(token) && !identical(token, "")) {
     if (is_null(pattern)) {
       return(token)
-    } else {
-      settoken_check_string(pattern, call = call)
-      settoken_check_string(token, call = call)
-
-      if (grepl(pattern, token, perl = perl)) {
-        return(token)
-      }
-
-      message <- "{.arg token} must match the supplied pattern: {.val {pattern}}"
     }
+
+    settoken_check_string(pattern, call = call)
+    settoken_check_string(token, call = call)
+
+    if (grepl(pattern, token, perl = perl)) {
+      return(token)
+    }
+
+    message <- "{.arg token} must match the supplied pattern: {.val {pattern}}"
   }
 
   message <- message %||%
@@ -197,9 +197,9 @@ get_r_environ_token <- function(token = NULL,
 #' @importFrom rlang caller_arg caller_env is_string
 #' @importFrom cli cli_abort
 settoken_check_string <- function(x,
-                                  arg = caller_arg(x),
-                                  allow_empty = FALSE,
                                   ...,
+                                  allow_empty = FALSE,
+                                  arg = caller_arg(x),
                                   call = caller_env()) {
   if (is_string(x) && (allow_empty || !is_string(x, ""))) {
     return(invisible(NULL))
