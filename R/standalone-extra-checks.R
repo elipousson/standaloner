@@ -1,7 +1,7 @@
 # ---
-# repo: elipousson/settoken
+# repo: elipousson/standaloner
 # file: standalone-extra-checks.R
-# last-updated: 2023-09-29
+# last-updated: 2023-10-10
 # license: https://opensource.org/license/mit/
 # imports: [rlang (>= 1.0.0), cli (>= 2.5.0)]
 # ---
@@ -12,6 +12,9 @@
 # "types-check")` first for these additional checks to work as expected.
 #
 # ## Changelog
+#
+# 2023-10-10:
+# * Rename package from settoken to more general name: standaloner.
 #
 # 2023-09-29:
 # * Create file with `check_list()`, `is_url()`, `check_url()`,

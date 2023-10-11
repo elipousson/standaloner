@@ -1,14 +1,14 @@
 Type: Package
-Package: settoken
-Title: Set and Get Tokens from Renviron
+Package: standaloner
+Title: Standalone Scripts for R Package Development
 Version: 0.1.0
 Authors@R: 
     person("Eli", "Pousson", , "eli.pousson@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-8280-1706"))
-Description: Set or get a token stored an an environmental variable.
+Description: Standalone scripts to set or get a token stored an an environmental variable, check objects, and more.
 License: MIT + file LICENSE
-URL: https://github.com/elipousson/settoken
-BugReports: https://github.com/elipousson/settoken/issues
+URL: https://github.com/elipousson/standaloner
+BugReports: https://github.com/elipousson/standaloner/issues
 Imports: 
     cli,
     glue,

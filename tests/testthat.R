@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(settoken)
+library(standaloner)
 
-test_check("settoken")
+test_check("standaloner")

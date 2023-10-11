@@ -1,5 +1,5 @@
 # ---
-# repo: elipousson/settoken
+# repo: elipousson/standaloner
 # file: standalone-settoken.R
 # last-updated: 2023-08-12
 # license: https://opensource.org/license/mit/
@@ -7,6 +7,9 @@
 # ---
 #
 # ## Changelog
+#
+# 2023-10-10:
+# * Rename package from settoken to more general name: standaloner.
 #
 # 2023-08-13:
 # * Create file with `set_r_environ_token()` and `get_r_environ_token()`

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# settoken
+# standaloner
 
 <!-- badges: start -->
 
@@ -10,13 +10,15 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
-The goal of settoken is to make it easy to set or get a token as an
-variable in a user Renviron file.
+The goal of standaloner is to provide a set of standalone R scripts with
+convenient functions for R package development including functions that
+make it easy to set or get a token as an variable in a user Renviron
+file and a variety of extra object checks.
 
 ## Installation
 
-You can install the development version of settoken like so:
+You can install the development version of standaloner like so:
 
 ``` r
-pak::pkg_install("elipousson/settoken")
+pak::pkg_install("elipousson/standaloner")
 ```
