@@ -148,6 +148,8 @@ set_r_environ_token <- function(token,
 #'   stored token. If pattern is supplied, the returned token must be a string.
 #' @param perl Should Perl-compatible regexps be used when checking `pattern`?
 #'   Defaults to `TRUE`.
+#' @param strict If `TRUE` (default), error if no environment variable with the
+#'   supplied name is found. If `FALSE`, warn instead of error.
 #' @returns [get_r_environ_token()] returns a string supplied to `token` or
 #'   obtained from the environment variable named with `default`.
 #'
@@ -160,6 +162,7 @@ get_r_environ_token <- function(token = NULL,
                                 message = NULL,
                                 pattern = NULL,
                                 perl = TRUE,
+                                strict = TRUE,
                                 call = caller_env(),
                                 ...) {
   settoken_check_string(default, call = call)
@@ -183,6 +186,15 @@ get_r_environ_token <- function(token = NULL,
 
   message <- message %||%
     "{.arg token} is empty and {.envvar {default}} can't be found in {.file .Renviron}"
+
+  if (!strict) {
+    cli_warn(
+      message = message,
+      ...
+    )
+
+    return(invisible(NULL))
+  }
 
   cli_abort(
     message = message,
