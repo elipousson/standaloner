@@ -1,7 +1,7 @@
 # ---
 # repo: elipousson/standaloner
 # file: standalone-settoken.R
-# last-updated: 2023-08-12
+# last-updated: 2023-10-10
 # license: https://opensource.org/license/mit/
 # imports: [rlang (>= 1.0.0), cli (>= 2.5.0)]
 # ---
