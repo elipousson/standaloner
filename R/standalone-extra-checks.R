@@ -1,7 +1,7 @@
 # ---
 # repo: elipousson/standaloner
 # file: standalone-extra-checks.R
-# last-updated: 2023-10-10
+# last-updated: 2024-02-06
 # license: https://opensource.org/license/mit/
 # imports: [rlang (>= 1.0.0), cli (>= 2.5.0)]
 # ---
@@ -12,6 +12,9 @@
 # "types-check")` first for these additional checks to work as expected.
 #
 # ## Changelog
+#
+# 2024-02-06:
+# * Fix issue with passing unavailable dots. Add dots more consistently.
 #
 # 2023-10-10:
 # * Rename package from settoken to more general name: standaloner.
@@ -81,6 +84,7 @@ is_url <- function(x, pattern = NULL, ...) {
 #' @noRd
 check_url <- function(url,
                       pattern = NULL,
+                      ...,
                       allow_null = FALSE,
                       arg = caller_arg(url),
                       call = caller_env()) {
@@ -166,9 +170,10 @@ check_inherits_all <- function(x,
 #' @noRd
 check_exclusive_args <- function(x = NULL,
                                  y = NULL,
+                                 require = TRUE,
+                                 ...,
                                  x_arg = caller_arg(x),
                                  y_arg = caller_arg(y),
-                                 require = TRUE,
                                  call = caller_env()) {
   if (is_empty(c(x, y))) {
     if (!require) {
@@ -177,7 +182,8 @@ check_exclusive_args <- function(x = NULL,
 
     cli_abort(
       "One of {.arg {x_arg}} or {.arg {y_arg}} must be supplied.",
-      call = call
+      call = call,
+      ...
     )
   }
 
@@ -187,7 +193,8 @@ check_exclusive_args <- function(x = NULL,
 
   cli_abort(
     "Exactly one of {.arg {x_arg}} or {.arg {y_arg}} must be supplied.",
-    call = call
+    call = call,
+    ...
   )
 }
 
