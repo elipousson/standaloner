@@ -43,6 +43,15 @@ mentioned in error messages as the source of the error. See the
 
 \item{message}{Error message passed to \code{\link[cli:cli_abort]{cli::cli_abort()}} if token can't be
 found.}
+
+\item{...}{
+  Arguments passed on to \code{\link[cli:cli_abort]{cli::cli_abort}}
+  \describe{
+    \item{\code{.envir}}{Environment to evaluate the glue expressions in.}
+    \item{\code{.frame}}{The throwing context. Used as default for
+\code{.trace_bottom}, and to determine the internal package to mention
+in internal errors when \code{.internal} is \code{TRUE}.}
+  }}
 }
 \description{
 This function is based on \code{\link[tidycensus:census_api_key]{tidycensus::census_api_key()}} by Kyle Walker.

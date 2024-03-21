@@ -106,6 +106,7 @@ set_envvar_token <- function(token,
 #' @name get_envvar_token
 #' @param message Error message passed to [cli::cli_abort()] if token can't be
 #'   found.
+#' @inheritDotParams cli::cli_abort
 #' @export
 #' @importFrom rlang caller_arg %||%
 #' @importFrom cli cli_abort
