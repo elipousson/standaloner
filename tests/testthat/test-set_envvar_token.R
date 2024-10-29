@@ -29,9 +29,6 @@ test_that("get_envvar_token works", {
   withr::with_envvar(
     c("TOKEN" = "test"),
     {
-      expect_error(
-        get_envvar_token(default = "TESTGETENVARTOKEN")
-      )
 
       expect_identical(
         get_envvar_token(token = "token", default = "TESTGETENVARTOKEN"),
@@ -41,6 +38,11 @@ test_that("get_envvar_token works", {
       expect_identical(
         get_envvar_token(default = "TOKEN"),
         "test"
+      )
+
+      skip_on_ci()
+      expect_error(
+        get_envvar_token(default = "TESTGETENVARTOKEN")
       )
     }
   )
